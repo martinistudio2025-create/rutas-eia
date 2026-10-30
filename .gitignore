@@ -1,0 +1,4 @@
+.DS_Store
+node_modules/
+# Nunca subir PIN reales: usar supabase/pines.sql solo como plantilla
+supabase/pines-reales.sql

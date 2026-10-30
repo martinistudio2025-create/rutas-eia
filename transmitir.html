@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0f172a">
+  <title>Transmitir · Rutas EIA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="transmitir.css">
+</head>
+<body class="tx">
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 16V7a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v9a2 2 0 0 1-1 1.73V19a1 1 0 0 1-1 1h-1a1 1 0 0 1-1-1v-1H8v1a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-1.27A2 2 0 0 1 4 16Zm2-8v4h12V8H6Zm1.5 6a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3Zm9 0a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3Z"/></svg>
+      </span>
+      <div>
+        <h1>Transmitir ubicación</h1>
+        <p>Comparte la ruta desde el bus</p>
+      </div>
+    </div>
+    <a class="btn-link" href="./">Ver mapa</a>
+  </header>
+
+  <!-- Paso 1: elegir ruta y PIN -->
+  <main id="paso-inicio" class="tx-main">
+    <form id="form" class="card" autocomplete="off">
+      <label class="field">
+        <span>Ruta</span>
+        <select id="ruta" required></select>
+      </label>
+      <label class="field">
+        <span>PIN de la ruta</span>
+        <input id="pin" type="password" inputmode="numeric" placeholder="••••" required>
+      </label>
+      <p id="error" class="error" hidden></p>
+      <button id="btn-iniciar" class="btn primary" type="submit">Iniciar transmisión</button>
+    </form>
+    <ul class="tips">
+      <li>Mantén esta pantalla abierta durante todo el recorrido.</li>
+      <li>Permite el acceso a la ubicación cuando el navegador lo pida.</li>
+      <li>Al llegar a la EIA, toca <b>Finalizar viaje</b>.</li>
+    </ul>
+  </main>
+
+  <!-- Paso 2: transmitiendo -->
+  <main id="paso-activo" class="tx-main" hidden>
+    <section class="card live-card">
+      <div class="live-head">
+        <span class="pulso"></span>
+        <div>
+          <b id="titulo-ruta"></b>
+          <span id="estado-tx">Obteniendo ubicación…</span>
+        </div>
+      </div>
+      <dl class="datos">
+        <div><dt>Último envío</dt><dd id="ultimo">—</dd></div>
+        <div><dt>Precisión GPS</dt><dd id="precision">—</dd></div>
+      </dl>
+      <p id="aviso" class="aviso" hidden></p>
+    </section>
+
+    <button id="btn-cupo" class="btn cupo" type="button">
+      <b>Marcar cupo completo</b>
+      <span>Avisa que el bus ya no hará más paradas</span>
+    </button>
+
+    <button id="btn-fin" class="btn ghost" type="button">Finalizar viaje</button>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.4/dist/umd/supabase.js"></script>
+  <script src="config.js"></script>
+  <script src="transmitir.js"></script>
+</body>
+</html>
