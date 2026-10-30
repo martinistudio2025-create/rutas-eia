@@ -7,12 +7,10 @@ const ICONO_PIN = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 
 const map = L.map("map", { zoomControl: false }).setView([6.2, -75.55], 12);
 L.control.zoom({ position: "topright" }).addTo(map);
 
-// Mapa base claro u oscuro según el tema del celular
-const oscuro = window.matchMedia("(prefers-color-scheme: dark)").matches;
-L.tileLayer(`https://{s}.basemaps.cartocdn.com/${oscuro ? "dark_all" : "light_all"}/{z}/{x}/{y}{r}.png`, {
+// Mapa base de OpenStreetMap (gratis, sin llave). En modo oscuro se oscurece con CSS
+L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
   maxZoom: 19,
-  subdomains: "abcd",
-  attribution: "&copy; OpenStreetMap &copy; CARTO",
+  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
 }).addTo(map);
 
 let datos, rutaActual, capas = {}, marcadores = L.layerGroup().addTo(map);

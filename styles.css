@@ -183,3 +183,11 @@ button { font: inherit; }
   :root:not([data-theme="light"]) .estado.lleno { background: #2a1214; border-color: #7f1d1d; }
   :root:not([data-theme="light"]) .estado.lleno b { color: #fca5a5; }
 }
+
+/* Mapa base: tono más sobrio en claro y versión oscura con filtro */
+.leaflet-tile-pane { filter: saturate(.75) contrast(.95); }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .leaflet-tile-pane {
+    filter: invert(1) hue-rotate(180deg) brightness(.85) contrast(.9) saturate(.5);
+  }
+}
