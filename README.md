@@ -25,10 +25,12 @@ Aplicación web para ver en tiempo real dónde van los buses de las rutas de la 
 | `index.html`, `app.js`, `styles.css` | Mapa para los pasajeros |
 | `transmitir.html`, `transmitir.js`, `transmitir.css` | Pantalla del transmisor |
 | `registro.html`, `registro.js`, `registro.css` | Registro único sin contraseña (lista de carreras en `registro.js`) |
+| `admin.html`, `admin.js`, `admin.css` | Panel de administración (requiere usuario en Supabase Auth y estar en la tabla `admins`) |
 | `img/` | Logos e íconos de la marca tracker. x EIA |
 | `config.js` | Conexión a Supabase (llave pública) |
 | `rutas.json` | Rutas, horarios y recorridos |
 | `supabase/usuarios.sql` | Tabla y función del registro de usuarios |
+| `supabase/admin.sql` | Lista de administradores y permiso de lectura de usuarios |
 | `supabase/schema.sql` | Tablas, seguridad y funciones de la base de datos |
 | `supabase/pines.sql` | Plantilla para definir los PIN (no subir PIN reales) |
 | `kml/` | Recorridos originales exportados de Google My Maps |

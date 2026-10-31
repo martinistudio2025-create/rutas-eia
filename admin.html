@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#094D5A">
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="img/icon.svg" type="image/svg+xml">
+  <title>Administración · tracker.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="transmitir.css">
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body class="tx adm">
+  <header class="topbar">
+    <a class="brand" href="./" aria-label="EIA x tracker. Rastreo de buses">
+      <img class="logo logo-light" src="img/logo-eia-tracker.png" alt="Universidad EIA x tracker">
+      <img class="logo logo-dark" src="img/logo-eia-tracker-dark.png" alt="" aria-hidden="true">
+    </a>
+    <button id="btn-salir" class="btn-link" type="button" hidden>Cerrar sesión</button>
+  </header>
+
+  <!-- Inicio de sesión -->
+  <main id="vista-login" class="tx-main" hidden>
+    <div class="page-title">
+      <h1>Administración</h1>
+      <p>Acceso solo para administradores</p>
+    </div>
+    <form id="form-login" class="card">
+      <label class="field">
+        <span>Correo</span>
+        <input id="email" type="email" autocomplete="username" required>
+      </label>
+      <label class="field">
+        <span>Contraseña</span>
+        <input id="clave" type="password" autocomplete="current-password" required>
+      </label>
+      <p id="error-login" class="error" hidden></p>
+      <button id="btn-entrar" class="btn primary" type="submit">Iniciar sesión</button>
+    </form>
+  </main>
+
+  <!-- Panel -->
+  <main id="vista-panel" class="panel" hidden>
+    <div class="page-title">
+      <h1>Usuarios registrados</h1>
+      <p id="subtitulo">Cargando…</p>
+    </div>
+
+    <section class="kpis">
+      <div class="kpi"><small>Total</small><strong id="k-total">—</strong></div>
+      <div class="kpi"><small>Estudiantes</small><strong id="k-est">—</strong></div>
+      <div class="kpi"><small>Últimos 7 días</small><strong id="k-semana">—</strong></div>
+      <div class="kpi"><small>Ruta más usada</small><strong id="k-ruta">—</strong></div>
+    </section>
+
+    <section class="filtros">
+      <input id="buscar" type="search" placeholder="Buscar por nombre o correo">
+      <select id="f-ruta"><option value="">Todas las rutas</option></select>
+      <select id="f-carrera"><option value="">Todas las carreras</option></select>
+      <button id="btn-csv" class="btn-link" type="button">Descargar CSV</button>
+    </section>
+
+    <div class="tabla-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th data-k="nombre">Nombre</th>
+            <th data-k="correo">Correo</th>
+            <th data-k="carrera">Carrera</th>
+            <th data-k="ruta">Ruta</th>
+            <th data-k="creado">Registro</th>
+          </tr>
+        </thead>
+        <tbody id="filas"></tbody>
+      </table>
+      <p id="vacio" class="vacio" hidden>No hay usuarios con estos filtros.</p>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.4/dist/umd/supabase.js"></script>
+  <script src="config.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>

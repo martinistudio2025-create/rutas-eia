@@ -1,0 +1,48 @@
+.adm .btn.primary { background: var(--petroleo); color: #fff; }
+.adm .btn-link { cursor: pointer; }
+
+.panel { padding: 8px 16px 40px; max-width: 1100px; width: 100%; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; }
+
+.kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.kpi { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 14px; min-width: 0; }
+.kpi small { display: block; font-size: .72rem; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); }
+.kpi strong { display: block; margin-top: 4px; font-size: 1.5rem; font-weight: 700; color: var(--petroleo); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#k-ruta { font-size: 1rem; line-height: 1.9; }
+
+.filtros { display: grid; grid-template-columns: 2fr 1fr 1fr auto; gap: 8px; }
+.filtros input, .filtros select {
+  width: 100%; font: inherit; font-size: .88rem; color: var(--text); background: var(--surface);
+  border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; outline: none; min-width: 0;
+}
+.filtros input:focus, .filtros select:focus { border-color: var(--petroleo); }
+
+.tabla-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: .86rem; }
+th, td { text-align: left; padding: 11px 14px; border-bottom: 1px solid var(--border); white-space: nowrap; }
+th { font-size: .72rem; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); cursor: pointer; user-select: none; background: var(--soft); }
+th.asc::after { content: " ↑"; }
+th.desc::after { content: " ↓"; }
+tbody tr:last-child td { border-bottom: none; }
+td .num { display: inline-grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; color: #fff; font-size: .7rem; font-weight: 700; margin-right: 6px; }
+td.sin { color: var(--muted); }
+.vacio { margin: 0; padding: 24px; text-align: center; color: var(--muted); font-size: .9rem; }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .kpi strong { color: var(--cian); }
+  :root:not([data-theme="light"]) .adm .btn.primary { background: var(--cian); color: #04191e; }
+}
+
+/* Celular: KPIs en 2 columnas y la tabla se vuelve tarjetas */
+@media (max-width: 700px) {
+  .kpis { grid-template-columns: 1fr 1fr; }
+  .filtros { grid-template-columns: 1fr 1fr; }
+  .filtros input, .filtros .btn-link { grid-column: 1 / -1; }
+  .tabla-wrap { background: none; border: none; }
+  table, tbody, tr, td { display: block; }
+  thead { display: none; }
+  tr { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 10px 14px; margin-bottom: 8px; }
+  td { border: none; padding: 2px 0; white-space: normal; }
+  td:first-child { font-weight: 600; font-size: .95rem; }
+  td:nth-child(2) { color: var(--muted); }
+  td:nth-child(5) { font-size: .75rem; color: var(--muted); margin-top: 4px; }
+}
