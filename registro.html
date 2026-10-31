@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#094D5A">
+  <link rel="icon" href="img/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+  <title>Bienvenido · tracker.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="transmitir.css">
+  <link rel="stylesheet" href="registro.css">
+</head>
+<body class="tx reg">
+  <section class="hero">
+    <img class="hero-logo logo-light" src="img/logo-eia-tracker.png" alt="Universidad EIA x tracker">
+    <img class="hero-logo logo-dark" src="img/logo-eia-tracker-dark.png" alt="" aria-hidden="true">
+    <h1>Mira dónde va tu ruta, en tiempo real</h1>
+    <p>Regístrate una sola vez para empezar.</p>
+  </section>
+
+  <main class="tx-main">
+    <form id="form" class="card" novalidate>
+      <label class="field">
+        <span>Nombre completo</span>
+        <input id="nombre" type="text" autocomplete="name" placeholder="Ej. Laura Gómez" required>
+      </label>
+
+      <label class="field">
+        <span>Correo institucional</span>
+        <input id="correo" type="email" inputmode="email" autocomplete="email" placeholder="nombre.apellido@eia.edu.co" required>
+      </label>
+
+      <div class="field">
+        <span>Soy</span>
+        <div class="seg" id="rol" role="radiogroup">
+          <button type="button" data-v="Estudiante" class="on">Estudiante</button>
+          <button type="button" data-v="Docente">Docente</button>
+          <button type="button" data-v="Administrativo">Administrativo</button>
+        </div>
+      </div>
+
+      <label class="field" id="campo-carrera">
+        <span>Carrera</span>
+        <select id="carrera" required></select>
+      </label>
+      <label class="field" id="campo-otra" hidden>
+        <span id="label-otra">¿Cuál?</span>
+        <input id="otra" type="text" placeholder="Escribe tu carrera">
+      </label>
+
+      <label class="field">
+        <span>Ruta que más usas <em>(opcional)</em></span>
+        <select id="ruta"><option value="">Ninguna en particular</option></select>
+      </label>
+
+      <label class="check">
+        <input id="acepta" type="checkbox">
+        <span>Autorizo el tratamiento de mis datos personales para el funcionamiento de la app y fines estadísticos del servicio de transporte, según la Ley 1581 de 2012.</span>
+      </label>
+
+      <p id="error" class="error" hidden></p>
+      <button id="btn" class="btn primary" type="submit">Entrar</button>
+    </form>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.4/dist/umd/supabase.js"></script>
+  <script src="config.js"></script>
+  <script src="registro.js"></script>
+</body>
+</html>

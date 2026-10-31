@@ -1,0 +1,33 @@
+.reg .hero {
+  background: var(--petroleo); color: #fff; text-align: center;
+  padding: 36px 24px 56px; padding-top: max(36px, env(safe-area-inset-top));
+  border-radius: 0 0 28px 28px;
+}
+/* En el encabezado petróleo siempre va el logo en blanco */
+.reg .hero .logo-light { display: none !important; }
+.reg .hero .logo-dark { display: block !important; }
+.reg .hero-logo { height: 36px; width: auto; margin: 8px auto 0; }
+.reg .hero h1 { margin: 22px 0 6px; font-size: 1.35rem; font-weight: 700; letter-spacing: -.02em; line-height: 1.25; }
+.reg .hero p { margin: 0; font-size: .9rem; color: rgba(255, 255, 255, .75); }
+
+.reg .tx-main { margin-top: -32px; }
+.reg .card { box-shadow: 0 10px 30px rgba(9, 77, 90, .10); }
+.field em { font-style: normal; font-weight: 400; }
+
+/* Selector de rol */
+.seg { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; background: var(--soft); padding: 4px; border-radius: 12px; }
+.seg button {
+  border: none; background: transparent; color: var(--muted); font-size: .82rem; font-weight: 600;
+  padding: 10px 4px; border-radius: 9px; cursor: pointer; transition: background .15s, color .15s;
+}
+.seg button.on { background: var(--surface); color: var(--text); box-shadow: 0 1px 4px rgba(9, 77, 90, .15); }
+
+.check { display: flex; gap: 10px; align-items: flex-start; margin: 4px 0 16px; font-size: .78rem; color: var(--muted); line-height: 1.45; cursor: pointer; }
+.check input { width: 18px; height: 18px; flex: 0 0 18px; margin: 1px 0 0; accent-color: var(--petroleo); }
+
+.field input.mal { border-color: #dc2626; }
+.btn.primary { background: var(--petroleo); color: #fff; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .reg .hero { background: #072a31; }
+  :root:not([data-theme="light"]) .btn.primary { background: var(--cian); color: #04191e; }
+}

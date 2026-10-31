@@ -3,8 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#0f172a">
-  <title>Rutas EIA</title>
+  <meta name="theme-color" content="#094D5A">
+  <link rel="icon" href="img/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+  <script>
+    // Si la persona no se ha registrado, enviarla al registro (solo se hace una vez)
+    try { if (!localStorage.getItem("usuario")) location.replace("registro.html"); } catch (e) {}
+  </script>
+  <title>tracker. · Rutas EIA</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
@@ -13,15 +19,10 @@
 </head>
 <body>
   <header class="topbar">
-    <div class="brand">
-      <span class="brand-mark">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 16V7a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v9a2 2 0 0 1-1 1.73V19a1 1 0 0 1-1 1h-1a1 1 0 0 1-1-1v-1H8v1a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-1.27A2 2 0 0 1 4 16Zm2-8v4h12V8H6Zm1.5 6a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3Zm9 0a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3Z"/></svg>
-      </span>
-      <div>
-        <h1>Rutas EIA</h1>
-        <p>Transporte universitario</p>
-      </div>
-    </div>
+    <a class="brand" href="./" aria-label="EIA x tracker. Rastreo de buses">
+      <img class="logo logo-light" src="img/logo-eia-tracker.png" alt="Universidad EIA x tracker">
+      <img class="logo logo-dark" src="img/logo-eia-tracker-dark.png" alt="" aria-hidden="true">
+    </a>
     <a class="btn-link" href="transmitir.html">Transmitir</a>
   </header>
 

@@ -1,28 +1,33 @@
 :root {
-  --bg: #f6f7f9;
+  /* Marca tracker. x EIA */
+  --petroleo: #094D5A;
+  --cian: #37B9D3;
+
+  --bg: #f3f7f8;
   --surface: #ffffff;
-  --text: #0f172a;
-  --muted: #64748b;
-  --border: #e2e8f0;
+  --text: #0c2b32;
+  --muted: #5f7a80;
+  --border: #dde7ea;
   --chip: #ffffff;
-  --soft: #f1f5f9;
-  --brand: #0f172a;
+  --soft: #eaf2f4;
+  --brand: var(--petroleo);
   --brand-text: #ffffff;
-  --shadow: 0 -8px 30px rgba(15, 23, 42, .08);
+  --accent: var(--cian);
+  --shadow: 0 -8px 30px rgba(9, 77, 90, .10);
   --radius: 16px;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #0b1120;
-    --surface: #111827;
-    --text: #f1f5f9;
-    --muted: #94a3b8;
-    --border: #1f2937;
-    --chip: #111827;
-    --soft: #1e293b;
-    --brand: #f1f5f9;
-    --brand-text: #0f172a;
-    --shadow: 0 -8px 30px rgba(0, 0, 0, .4);
+    --bg: #04191e;
+    --surface: #072a31;
+    --text: #e8f4f6;
+    --muted: #8fb0b6;
+    --border: #12424c;
+    --chip: #072a31;
+    --soft: #0b3640;
+    --brand: var(--cian);
+    --brand-text: #04191e;
+    --shadow: 0 -8px 30px rgba(0, 0, 0, .45);
   }
 }
 
@@ -46,6 +51,12 @@ button { font: inherit; }
 .brand-mark svg { width: 22px; height: 22px; fill: currentColor; }
 .brand h1 { margin: 0; font-size: 1.05rem; font-weight: 700; letter-spacing: -.01em; }
 .brand p { margin: 1px 0 0; font-size: .78rem; color: var(--muted); }
+.logo { display: block; height: 30px; width: auto; }
+.logo-dark { display: none; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .logo-light { display: none; }
+  :root:not([data-theme="light"]) .logo-dark { display: block; }
+}
 
 /* Selector de rutas */
 .chips { display: flex; gap: 8px; overflow-x: auto; padding: 2px 16px 12px; scrollbar-width: none; }
