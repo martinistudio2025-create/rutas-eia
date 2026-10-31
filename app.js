@@ -180,7 +180,7 @@ function pintarEstado() {
   const hace = textoHace(v.actualizado);
   if (sinSenal(v)) {
     caja.innerHTML = `<div class="estado off"><span class="pulso"></span>
-      <div class="txt"><b>Sin señal reciente${v.cupo_completo ? " · Cupo completo" : ""}</b><span>Última ubicación ${hace}</span></div>
+      <div class="txt"><b>Detenido o sin señal${v.cupo_completo ? " · Cupo completo" : ""}</b><span>Última ubicación conocida ${hace}</span></div>
       <button onclick="verBus()">Ver</button></div>`;
     return;
   }

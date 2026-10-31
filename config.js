@@ -4,8 +4,9 @@ const SUPABASE_URL = "https://rfkylfdktjfbuxywzjjx.supabase.co";
 const SUPABASE_KEY = "sb_publishable_rzhRzhfj8DeyW060v8waNw_E9OMPQOo";
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-// Si un bus no envía ubicación en este tiempo, se muestra en gris como "sin señal"
-const SIN_SENAL_MS = 2 * 60 * 1000;
+// Si un bus no envía ubicación en este tiempo, se muestra en gris como "detenido o sin señal"
+// (en iPhone, Traccar no envía nada mientras el celular está quieto)
+const SIN_SENAL_MS = 4 * 60 * 1000;
 // Si un bus no envía ubicación en este tiempo, se deja de mostrar
 const VIGENCIA_MS = 15 * 60 * 1000;
 // Cada cuánto el transmisor envía la ubicación
