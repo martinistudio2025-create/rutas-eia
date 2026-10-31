@@ -43,6 +43,7 @@
       </label>
       <p id="error" class="error" hidden></p>
       <button id="btn-iniciar" class="btn primary" type="submit">Iniciar transmisión</button>
+      <button id="btn-avisos" class="btn ghost avisos" type="button">Solo avisos <span>(ya transmito con Traccar)</span></button>
     </form>
     <ul class="tips">
       <li>Mantén esta pantalla abierta durante todo el recorrido.</li>
@@ -61,7 +62,7 @@
           <span id="estado-tx">Obteniendo ubicación…</span>
         </div>
       </div>
-      <dl class="datos">
+      <dl class="datos" id="datos">
         <div><dt>Último envío</dt><dd id="ultimo">—</dd></div>
         <div><dt>Precisión GPS</dt><dd id="precision">—</dd></div>
       </dl>

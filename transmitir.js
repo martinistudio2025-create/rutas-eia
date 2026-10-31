@@ -2,7 +2,7 @@
 // y permite marcar cupo completo o finalizar el viaje.
 const $ = (id) => document.getElementById(id);
 
-let sesion = null;   // { ruta, nombre, pin, cupo }
+let sesion = null;   // { ruta, nombre, pin, cupo, traccar }
 let posicion = null; // última lectura del GPS
 let watchId = null, timer = null, wakeLock = null, enviando = false;
 
@@ -17,8 +17,13 @@ fetch("rutas.json").then((r) => r.json()).then((d) => {
   if (previa) arrancar(previa);
 });
 
-$("form").addEventListener("submit", async (e) => {
-  e.preventDefault();
+$("form").addEventListener("submit", (e) => { e.preventDefault(); entrar(false); });
+$("btn-avisos").addEventListener("click", () => {
+  if ($("form").reportValidity()) entrar(true);
+});
+
+// traccar = true: la ubicación la envía Traccar Client; esta pantalla solo marca cupo y finaliza
+async function entrar(traccar) {
   const ruta = Number($("ruta").value);
   const pin = $("pin").value.trim();
   mostrarError("");
@@ -32,8 +37,8 @@ $("form").addEventListener("submit", async (e) => {
   if (!ok) return mostrarError("PIN incorrecto para esta ruta.");
 
   guardar(localStorage, "ruta", ruta);
-  arrancar({ ruta, nombre: $("ruta").selectedOptions[0].textContent, pin, cupo: false });
-});
+  arrancar({ ruta, nombre: $("ruta").selectedOptions[0].textContent, pin, cupo: false, traccar });
+}
 
 function arrancar(s) {
   sesion = s;
@@ -42,7 +47,14 @@ function arrancar(s) {
   $("paso-activo").hidden = false;
   $("titulo-ruta").textContent = sesion.nombre;
   pintarCupo();
+  $("datos").hidden = !!sesion.traccar;
 
+  if (sesion.traccar) {
+    estado("ok", "Modo Traccar: la ubicación la envía la app Traccar");
+    $("aviso").hidden = false;
+    $("aviso").textContent = "Puedes bloquear el celular. Vuelve aquí solo para marcar cupo completo o finalizar.";
+    return;
+  }
   if (!("geolocation" in navigator)) return estado("error", "Este celular no permite compartir ubicación");
   estado("esperando", "Obteniendo ubicación…");
   watchId = navigator.geolocation.watchPosition(
@@ -77,11 +89,19 @@ async function enviar() {
   $("ultimo").textContent = new Date().toLocaleTimeString("es-CO", { hour: "numeric", minute: "2-digit", second: "2-digit" });
 }
 
-$("btn-cupo").addEventListener("click", () => {
+$("btn-cupo").addEventListener("click", async () => {
   sesion.cupo = !sesion.cupo;
   guardar(sessionStorage, "sesion", JSON.stringify(sesion));
   pintarCupo();
-  enviar();
+  if (!sesion.traccar) return enviar();
+
+  const { data: ok, error } = await sb.rpc("marcar_cupo", { p_ruta: sesion.ruta, p_pin: sesion.pin, p_cupo: sesion.cupo });
+  if (error || !ok) {
+    sesion.cupo = !sesion.cupo; // revertir: no se pudo marcar
+    guardar(sessionStorage, "sesion", JSON.stringify(sesion));
+    pintarCupo();
+    alert(error ? "Sin conexión. Intenta de nuevo." : "Traccar todavía no ha enviado la ubicación de este bus. Revisa que esté activo.");
+  }
 });
 
 $("btn-fin").addEventListener("click", async () => {
@@ -89,6 +109,7 @@ $("btn-fin").addEventListener("click", async () => {
   $("btn-fin").disabled = true;
   await sb.rpc("finalizar", { p_ruta: sesion.ruta, p_pin: sesion.pin });
   $("btn-fin").disabled = false;
+  if (sesion.traccar) alert("Recuerda apagar el servicio en Traccar Client; si no, el bus vuelve a aparecer en el mapa.");
   detener();
 });
 
@@ -138,7 +159,7 @@ async function mantenerPantalla() {
 }
 // Al volver a la pestaña, el bloqueo de pantalla se pierde: pedirlo otra vez y enviar ya
 document.addEventListener("visibilitychange", () => {
-  if (!document.hidden && sesion) { mantenerPantalla(); enviar(); }
+  if (!document.hidden && sesion && !sesion.traccar) { mantenerPantalla(); enviar(); }
 });
 
 function mostrarError(t) { $("error").hidden = !t; $("error").textContent = t; }

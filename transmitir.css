@@ -21,6 +21,8 @@ body.tx { overflow-y: auto; }
 .btn:disabled { opacity: .5; cursor: default; }
 .btn.primary { background: var(--brand); color: var(--brand-text); }
 .btn.ghost { background: transparent; color: var(--muted); border: 1px solid var(--border); }
+.btn.avisos { margin-top: 8px; color: var(--text); }
+.btn.avisos span { font-weight: 400; color: var(--muted); }
 
 .btn.cupo { background: var(--surface); color: var(--text); border: 1px solid var(--border); text-align: left; padding: 16px 18px; }
 .btn.cupo b { display: block; font-size: 1rem; }

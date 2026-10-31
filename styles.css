@@ -202,3 +202,7 @@ button { font: inherit; }
     filter: invert(1) hue-rotate(180deg) brightness(.85) contrast(.9) saturate(.5);
   }
 }
+
+/* Bus sin señal reciente: se muestra en gris con su última ubicación */
+.mk-bus.sin-senal { background: #94a3b8; box-shadow: 0 0 0 4px rgba(148, 163, 184, .35), 0 3px 10px rgba(0, 0, 0, .3); }
+.estado.off button { background: var(--soft); color: var(--text); }

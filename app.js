@@ -142,6 +142,9 @@ async function recargarVivos() {
 function vigente(v) {
   return v && Date.now() - new Date(v.actualizado).getTime() < VIGENCIA_MS;
 }
+function sinSenal(v) {
+  return Date.now() - new Date(v.actualizado).getTime() > SIN_SENAL_MS;
+}
 
 function pintarBuses() {
   if (!datos) return;
@@ -153,7 +156,7 @@ function pintarBuses() {
       if (buses[id]) { buses[id].remove(); delete buses[id]; }
       return;
     }
-    const clase = `mk-bus${v.cupo_completo ? " lleno" : ""}${id !== rutaActual ? " otra" : ""}`;
+    const clase = `mk-bus${v.cupo_completo ? " lleno" : ""}${sinSenal(v) ? " sin-senal" : ""}${id !== rutaActual ? " otra" : ""}`;
     const html = `<div class="${clase}" style="--c:${COLORES[id]}">${ICONO_BUS}</div>`;
     if (!buses[id]) {
       buses[id] = L.marker([v.lat, v.lng], { icon: icono(html, [34, 34]) })
@@ -175,6 +178,12 @@ function pintarEstado() {
     return;
   }
   const hace = textoHace(v.actualizado);
+  if (sinSenal(v)) {
+    caja.innerHTML = `<div class="estado off"><span class="pulso"></span>
+      <div class="txt"><b>Sin señal reciente${v.cupo_completo ? " · Cupo completo" : ""}</b><span>Última ubicación ${hace}</span></div>
+      <button onclick="verBus()">Ver</button></div>`;
+    return;
+  }
   caja.innerHTML = v.cupo_completo
     ? `<div class="estado lleno"><span class="pulso"></span>
         <div class="txt"><b>Cupo completo</b><span>No hará más paradas · ${hace}</span></div>

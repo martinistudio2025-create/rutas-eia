@@ -31,6 +31,8 @@ Aplicación web para ver en tiempo real dónde van los buses de las rutas de la 
 | `rutas.json` | Rutas, horarios y recorridos |
 | `supabase/usuarios.sql` | Tabla y función del registro de usuarios |
 | `supabase/admin.sql` | Lista de administradores y permiso de lectura de usuarios |
+| `supabase/traccar.sql` | Funciones para transmitir con Traccar Client (`transmitir_gps`, `marcar_cupo`) |
+| `supabase/functions/traccar/` | Edge Function que recibe la ubicación de Traccar Client (desplegar sin Verify JWT) |
 | `supabase/schema.sql` | Tablas, seguridad y funciones de la base de datos |
 | `supabase/pines.sql` | Plantilla para definir los PIN (no subir PIN reales) |
 | `kml/` | Recorridos originales exportados de Google My Maps |
