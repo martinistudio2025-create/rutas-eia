@@ -71,7 +71,10 @@ $("form").addEventListener("submit", async (e) => {
   });
   $("btn").disabled = false;
   $("btn").textContent = "Entrar";
-  if (err) return error("No pudimos registrarte. Revisa tu conexión e intenta de nuevo.");
+  if (err) {
+    console.error(err);
+    return error(`No pudimos registrarte. Revisa tu conexión e intenta de nuevo. (Detalle: ${err.code || ""} ${err.message || ""})`);
+  }
 
   try {
     localStorage.setItem("usuario", JSON.stringify({ nombre, correo, rol, carrera, ruta }));
