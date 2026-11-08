@@ -4,7 +4,15 @@ const $ = (id) => document.getElementById(id);
 
 let sesion = null;   // { ruta, nombre, pin, cupo, traccar }
 let posicion = null; // última lectura del GPS
-let watchId = null, timer = null, wakeLock = null, enviando = false;
+let watchId = null, timer = null, wakeLock = null, enviando = false, ultimoEnvio = 0;
+
+// Dentro de la app (Capacitor) se usa el GPS nativo, que sigue enviando con la pantalla bloqueada
+const NATIVO = !!window.Capacitor?.isNativePlatform?.();
+const GPS_NATIVO = NATIVO ? window.Capacitor.registerPlugin("BackgroundGeolocation") : null;
+if (NATIVO) {
+  $("btn-avisos").hidden = true; // en la app no hace falta Traccar
+  document.querySelector(".tips li").textContent = "Puedes bloquear el celular: la transmisión sigue en segundo plano.";
+}
 
 // Cargar las rutas en el selector
 fetch("rutas.json").then((r) => r.json()).then((d) => {
@@ -55,8 +63,11 @@ function arrancar(s) {
     $("aviso").textContent = "Puedes bloquear el celular. Vuelve aquí solo para marcar cupo completo o finalizar.";
     return;
   }
-  if (!("geolocation" in navigator)) return estado("error", "Este celular no permite compartir ubicación");
   estado("esperando", "Obteniendo ubicación…");
+  timer = setInterval(enviar, INTERVALO_ENVIO_MS);
+  if (NATIVO) return iniciarGpsNativo();
+
+  if (!("geolocation" in navigator)) return estado("error", "Este celular no permite compartir ubicación");
   watchId = navigator.geolocation.watchPosition(
     (p) => {
       const primera = !posicion;
@@ -69,13 +80,37 @@ function arrancar(s) {
       : "No se pudo obtener la ubicación. Revisa que el GPS esté activo."),
     { enableHighAccuracy: true, maximumAge: 5000, timeout: 20000 }
   );
-  timer = setInterval(enviar, INTERVALO_ENVIO_MS);
   mantenerPantalla();
+}
+
+async function iniciarGpsNativo() {
+  $("aviso").hidden = false;
+  $("aviso").textContent = "Puedes bloquear el celular. Verás una notificación mientras se transmite.";
+  watchId = await GPS_NATIVO.addWatcher({
+    backgroundTitle: "tracker. está transmitiendo la ruta",
+    backgroundMessage: "Toca para volver a la app y marcar cupo completo o finalizar.",
+    requestPermissions: true,
+    stale: false,
+    distanceFilter: 10,
+  }, (ubicacion, error) => {
+    if (error) {
+      if (error.code === "NOT_AUTHORIZED" && confirm("tracker. necesita tu ubicación para transmitir. ¿Abrir los ajustes para activarla?")) {
+        GPS_NATIVO.openSettings();
+      }
+      return estado("error", "Permiso de ubicación denegado. Actívalo en los ajustes del celular.");
+    }
+    const primera = !posicion;
+    posicion = ubicacion;
+    $("precision").textContent = `± ${Math.round(posicion.accuracy)} m`;
+    // En segundo plano los temporizadores pueden pausarse: cada nueva ubicación también dispara un envío
+    if (primera || Date.now() - ultimoEnvio >= INTERVALO_ENVIO_MS) enviar();
+  });
 }
 
 async function enviar() {
   if (!sesion || !posicion || enviando) return;
   enviando = true;
+  ultimoEnvio = Date.now();
   const { error } = await sb.rpc("transmitir", {
     p_ruta: sesion.ruta, p_pin: sesion.pin,
     p_lat: posicion.latitude, p_lng: posicion.longitude, p_cupo: sesion.cupo,
@@ -114,7 +149,7 @@ $("btn-fin").addEventListener("click", async () => {
 });
 
 function detener() {
-  if (watchId !== null) navigator.geolocation.clearWatch(watchId);
+  if (watchId !== null) NATIVO ? GPS_NATIVO.removeWatcher({ id: watchId }) : navigator.geolocation.clearWatch(watchId);
   clearInterval(timer);
   if (wakeLock) wakeLock.release();
   watchId = timer = wakeLock = sesion = posicion = null;
@@ -159,7 +194,7 @@ async function mantenerPantalla() {
 }
 // Al volver a la pestaña, el bloqueo de pantalla se pierde: pedirlo otra vez y enviar ya
 document.addEventListener("visibilitychange", () => {
-  if (!document.hidden && sesion && !sesion.traccar) { mantenerPantalla(); enviar(); }
+  if (!document.hidden && sesion && !sesion.traccar) { if (!NATIVO) mantenerPantalla(); enviar(); }
 });
 
 function mostrarError(t) { $("error").hidden = !t; $("error").textContent = t; }

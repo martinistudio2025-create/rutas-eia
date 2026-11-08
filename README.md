@@ -18,6 +18,10 @@ Aplicación web para ver en tiempo real dónde van los buses de las rutas de la 
 | Tiempo real | Supabase |
 | Hosting | Netlify |
 
+## App nativa (beta)
+
+Ver [docs/APP.md](docs/APP.md): Capacitor para iOS y Android, con GPS en segundo plano.
+
 ## Estructura
 
 | Archivo | Descripción |
